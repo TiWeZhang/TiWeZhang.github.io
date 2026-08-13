@@ -49,6 +49,14 @@ $escapedAssets = [regex]::Escape($sourceName + '.assets')
 $imagePattern = '!\[([^\]]*)\]\((?:\./)?' + $escapedAssets + '/([^\s\)]+)([^\)]*)\)'
 $markdown = [regex]::Replace($markdown, $imagePattern, '![$1]($2$3)')
 
+# Typora writes resized images as HTML, for example:
+# <img src="my-post.assets/image.png" alt="..." style="zoom: 80%;" />
+# Keep all HTML attributes intact, but make src relative to media_subpath just
+# like regular Markdown image links. The matching image is copied below into
+# assets/img/posts/<published-name>/.
+$htmlImagePattern = '(<img\b[^>]*?\bsrc\s*=\s*["''])(?:\./)?' + $escapedAssets + '/([^"'']+)(["''])'
+$markdown = [regex]::Replace($markdown, $htmlImagePattern, '$1$2$3')
+
 $headerPattern = '^(---\r?\n)([\s\S]*?)(\r?\n---\r?\n)'
 $headerMatch = [regex]::Match($markdown, $headerPattern)
 if ($headerMatch.Success) {
