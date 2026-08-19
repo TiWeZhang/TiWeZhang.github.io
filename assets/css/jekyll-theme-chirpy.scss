@@ -17,9 +17,10 @@
 /* 文章正文：字体、字号、行距 */
 #post-wrapper .post-content {
   //font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC",Arial, sans-serif;
-  font-family: "Noto Serif CJK SC", "Songti SC", SimSun, serif;
-  font-size: 1.0625rem; /* 约 17px */
-  line-height: 1.9;
+  //font-family: "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+  font-family: Arial, "SimSun", "宋体", serif;
+  font-size: 1rem; /* 约 16px */
+  line-height: 1.8;
 }
 
 /* 文章标题 */
