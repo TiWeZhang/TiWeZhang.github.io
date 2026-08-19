@@ -1,0 +1,32 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* 文章正文：字体、字号、行距 */
+#post-wrapper .post-content {
+  //font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC",Arial, sans-serif;
+  font-family: "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+  font-size: 1.0625rem; /* 约 17px */
+  line-height: 1.9;
+}
+
+/* 文章标题 */
+#post-wrapper .post-content h1,
+#post-wrapper .post-content h2,
+#post-wrapper .post-content h3,
+#post-wrapper .post-content h4 {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC",
+    Arial, sans-serif;
+}
