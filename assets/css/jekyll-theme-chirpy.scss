@@ -14,20 +14,14 @@
 
 /* append your custom style below */
 
-/* 文章正文：字体、字号、行距 */
-#post-wrapper .post-content {
-  //font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC",Arial, sans-serif;
-  //font-family: "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+/* 文章正文：英文 Arial，中文宋体 */
+article > .content {
   font-family: Arial, "SimSun", "宋体", serif;
-  font-size: 1rem; /* 约 16px */
+  font-size: 1rem;
   line-height: 1.8;
 }
 
-/* 文章标题 */
-#post-wrapper .post-content h1,
-#post-wrapper .post-content h2,
-#post-wrapper .post-content h3,
-#post-wrapper .post-content h4 {
-  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC",
-    Arial, sans-serif;
+/* 确保段落、列表和表格继承正文设置；代码块仍保留等宽字体 */
+article > .content :is(p, li, blockquote, td, th, figcaption) {
+  font-family: inherit;
 }
