@@ -16,9 +16,9 @@
 
 /* 文章正文：英文 Arial，中文宋体 */
 article > .content {
-  font-family: Arial, "SimSun", "宋体", serif;
-  font-size: 12pt;
-  line-height: 16pt;
+  font-family: Cambria, "SimSun", "宋体", serif;
+  font-size: 13pt;
+  line-height: 18pt;
 }
 
 /* 确保段落、列表和表格继承正文设置；代码块仍保留等宽字体 */
