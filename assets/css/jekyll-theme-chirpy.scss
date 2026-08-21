@@ -25,3 +25,11 @@ article > .content {
 article > .content :is(p, li, blockquote, td, th, figcaption) {
   font-family: inherit;
 }
+
+/* 正文各级标题：英文 Arial，中文黑体 */
+#sidebar .site-title,
+#topbar-title,
+article > header h1,
+article > .content :is(h1, h2, h3, h4, h5, h6) {
+  font-family: Arial, "SimHei", "黑体", sans-serif;
+}
