@@ -9,10 +9,24 @@
 
 ```text
 writing（Typora 图文源稿）
-  -> tools/publish-post.ps1（发布转换）
+  -> tools/BlogPublisher/BlogPublisher.exe（推荐：填写元数据并发布）
+  -> tools/publish-post.ps1（备用命令行发布转换）
   -> _posts + assets/img/posts（Chirpy 发布源）
   -> git commit + git push origin main
 ```
+
+## 推荐：使用 Blog Publisher 图形界面
+
+发布前先安装 [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)。
+
+双击仓库内的 `tools/BlogPublisher/BlogPublisher.exe`：
+
+1. 左侧选择 `writing/` 中的一篇 Markdown 源稿（包含子目录）。
+2. 填写标题、发布日期时间、分类和标签；分类、标签均用逗号分隔。
+3. 点击“导出至 _posts”。工具会写入源稿 Front Matter，并同步生成发布文件和图片。
+4. 图形界面不会提交、推送或部署；随后按本文的 Git 发布步骤完成上线。
+
+源稿中会保存 `publish_target` 映射；发布稿中会保存 `source_path`。这两项由工具维护，不需要手动编辑。它们确保一个源稿只对应一个 `_posts` 文件。修改发布日期后，工具会自动重命名发布文件及其图片目录。
 
 ## Typora 设置
 
@@ -53,19 +67,21 @@ Typora 图片链接一般形如：
 
 ## 发布文章
 
-从仓库根目录运行 Windows PowerShell：
+图形界面不可用时，可从仓库根目录运行 Windows PowerShell：
 
 ```powershell
-.\tools\publish-post.ps1 -Source ".\writing\测试文档.md"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\publish-post.ps1 -Source ".\writing\测试文档.md"
 ```
 
 脚本会：
 
-1. 若原文件名没有日期前缀，为发布文章添加当天日期，例如 `测试文档.md` 变为 `_posts/YYYY-MM-DD-测试文档.md`。
-2. 复制同名 `.assets` 图片目录到 `assets/img/posts/YYYY-MM-DD-测试文档/`。
-3. 将 Typora 的图片相对路径改为图片文件名。
-4. 添加或更新 Chirpy 的 `media_subpath`，使线上页面正确引用图片。
-5. 若文章没有 YAML Front Matter，自动创建包含标题、日期和 `media_subpath` 的基本 Front Matter。
+1. 要求源稿已有 `title` 和 `date` Front Matter；图形界面会自动创建它们。
+2. 根据 `date` 生成目标名，例如 `测试文档.md` 变为 `_posts/YYYY-MM-DD-测试文档.md`。
+3. 保存源稿到发布稿的一对一映射；同一篇源稿重复发布时更新原文件，日期变化时迁移旧文件和图片目录。
+4. 对未带映射的历史文章，按精确文件名自动认领；冲突或歧义会停止，不会覆盖任何文件。
+5. 镜像同步同名 `.assets` 图片目录到 `assets/img/posts/YYYY-MM-DD-测试文档/`。
+6. 将 Typora 的 Markdown 和 HTML 图片相对路径改为图片文件名，并添加或更新 Chirpy 的 `media_subpath`。
+7. 若 Markdown 或 HTML 图片引用了同名 `.assets` 目录但该目录缺失，停止发布并报告错误。
 
 发布后的文章应类似：
 
@@ -74,6 +90,7 @@ Typora 图片链接一般形如：
 title: "测试文档"
 date: 2026-08-12 12:00:00 +0800
 media_subpath: /assets/img/posts/2026-08-12-测试文档/
+source_path: writing/测试文档.md
 ---
 ```
 
@@ -101,7 +118,8 @@ git push origin main
 ## Codex 协助要点
 
 - 先查看 `git status --short --branch`，避免覆盖用户未提交的内容。
-- 文章发布前确认图片目录和 Markdown 文件同名；否则脚本不会同步图片。
+- 优先使用图形界面。命令行备用方式要求源稿已有有效的 `title` 与 `date` Front Matter。
+- 文章发布前确认图片目录和 Markdown 文件同名；若正文引用了该目录而目录不存在，脚本会拒绝发布。
 - 若用户需要 Word 导入，Pandoc 已安装，可用 `--extract-media` 将图片导出到同名 `.assets` 目录，再用 Typora 检查和编辑。
 - 本仓库当前不要求本地 Jekyll 预览；不要为此安装 Ruby 或修改站点配置，除非作者要求。
 - `tools/publish-post.ps1` 已兼容 Windows PowerShell 5.1，脚本输出应保持 ASCII/英文，避免 UTF-8 无 BOM 的中文解析问题。
