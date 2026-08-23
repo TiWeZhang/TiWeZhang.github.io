@@ -31,3 +31,11 @@ the PowerShell transformer while enforcing a one-source-to-one-post mapping.
 1. [complete] Move the source list above the editor and size each list column from its content.
 2. [complete] Aggregate source tags and expose them as toggleable suggestion buttons.
 3. [complete] Build and republish the Windows EXE.
+
+# Isolated Local Chirpy Preview
+
+## Plan
+
+1. [complete] Install a portable Ruby + DevKit toolchain under `_Local/` only.
+2. [complete] Install the Jekyll/Chirpy bundle and isolate all cache/output files under `_Local/`.
+3. [complete] Launch and verify the local live-reload server at `127.0.0.1:4000`.

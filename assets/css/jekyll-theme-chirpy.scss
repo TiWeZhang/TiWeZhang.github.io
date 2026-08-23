@@ -37,9 +37,9 @@ article > .content :is(h1, h2, h3, h4, h5, h6) {
 /* 正文段落与列表项间距 */
 article > .content > p {
   margin-top: 0;
-  margin-bottom: 22pt;
+  margin-bottom: 5pt;
 }
 
 article > .content li + li {
-  margin-top: 20pt;
+  margin-top: 2pt;
 }

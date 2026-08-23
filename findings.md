@@ -9,3 +9,4 @@
 - `SplitterDistance` cannot be set while a `SplitContainer` still has its construction-time width; the valid range only exists after the form is shown.
 - The current GUI source has no `SplitContainer`, `SplitterDistance`, `Panel1MinSize`, or `Panel2MinSize` code paths; any repeat of that exact message would therefore be from an older executable copy that has not been replaced.
 - The source article model already reads both inline and block-list YAML tags, so the GUI can build its reusable tag list directly from loaded `ArticleInfo.Tags` without changing the Markdown parser.
+- Chirpy's normal Jekyll command works on Windows with a portable Ruby + DevKit installation. The local `start-preview.cmd` uses `_Local/local-config.yml` so output, cache, metadata, and all Gem dependencies remain isolated under `_Local/`; `_Local/` is ignored by Git.

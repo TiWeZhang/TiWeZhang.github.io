@@ -8,3 +8,5 @@
 - Fixed the first-launch `SplitterDistance` exception by applying the initial split position only after the WinForms window has a measured client width, then rebuilt and republished the EXE.
 - Replaced `SplitContainer` completely with a two-column `TableLayoutPanel`, removed every runtime splitter-property assignment, and republished the EXE after the exception persisted on the user's machine.
 - Reworked the publisher into an upper source-list / lower editor layout, added content-width list columns, and added selectable tag suggestions aggregated from `writing/` source Front Matter.
+- Set up a portable Ruby 3.3 + DevKit, MSYS2, Bundler cache, Jekyll output, and local configuration entirely within `_Local/`.
+- Installed the Chirpy bundle, started the live-reload preview server, and verified `http://127.0.0.1:4000` returns the site successfully without creating `_site`, `.jekyll-cache`, `.jekyll-metadata`, or `Gemfile.lock` at the repository root.
