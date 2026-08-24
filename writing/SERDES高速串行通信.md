@@ -1,10 +1,11 @@
 ---
 title: "SERDES高速串行通信"
 date: "2026-08-21 23:22:56 +0800"
-categories: []
+categories: ["硬件"]
 tags: ["硬件", "Serdes"]
 publish_target: _posts/2026-08-21-SERDES高速串行通信.md
 ---
+
 
 SerDes艺术
 
