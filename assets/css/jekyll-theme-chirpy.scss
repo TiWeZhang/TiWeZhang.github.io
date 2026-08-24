@@ -16,9 +16,9 @@
 
 /* 文章正文：英文 Arial，中文宋体 */
 article > .content {
-  font-family: Cambria, "SimSun", "宋体", serif;
+  font-family: Times New Roman, "SimSun", "宋体", serif;
   font-size: 13pt;
-  line-height: 18pt;
+  line-height: 19pt;
 }
 
 /* 确保段落、列表和表格继承正文设置；代码块仍保留等宽字体 */
@@ -36,10 +36,35 @@ article > .content :is(h1, h2, h3, h4, h5, h6) {
 
 /* 正文段落与列表项间距 */
 article > .content > p {
-  margin-top: 0;
-  margin-bottom: 5pt;
+  margin-top: 5pt;
+  margin-bottom: 2pt;
 }
 
 article > .content li + li {
   margin-top: 2pt;
+}
+
+/* 正文内各级标题的上下间距 */
+article > .content {
+  h1 {
+    margin-top: 18pt;
+    margin-bottom: 6pt;
+  }
+
+  h2 {
+    margin-top: 18pt;
+    margin-bottom: 6pt;
+  }
+
+  h3 {
+    margin-top: 18pt;
+    margin-bottom: 6pt;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 12pt;
+    margin-bottom: 4pt;
+  }
 }
