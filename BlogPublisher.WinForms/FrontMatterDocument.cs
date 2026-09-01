@@ -83,13 +83,13 @@ internal sealed class FrontMatterDocument
     public void SetScalar(string key, string value)
     {
         RemoveKey(key);
-        AppendLine($"{key}: {Quote(value)}");
+        AppendLine($"{key}: {PlainScalar(value)}");
     }
 
     public void SetSequence(string key, IEnumerable<string> values)
     {
         RemoveKey(key);
-        var serializedValues = values.Select(Quote);
+        var serializedValues = values.Select(PlainScalar);
         AppendLine($"{key}: [{string.Join(", ", serializedValues)}]");
     }
 
@@ -113,6 +113,8 @@ internal sealed class FrontMatterDocument
         _header = _header.Length == 0 ? line : _header + "\n" + line;
     }
 
-    private static string Quote(string value) =>
-        $"\"{value.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"";
+    // Chirpy accepts YAML plain scalars. This intentionally matches the reference
+    // post format, e.g. `title: ESD防护TVS管选型` and `tags: [硬件, ESD防护]`.
+    private static string PlainScalar(string value) =>
+        value.Replace("\r", " ").Replace("\n", " ").Trim();
 }

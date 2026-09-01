@@ -39,3 +39,11 @@ the PowerShell transformer while enforcing a one-source-to-one-post mapping.
 1. [complete] Install a portable Ruby + DevKit toolchain under `_Local/` only.
 2. [complete] Install the Jekyll/Chirpy bundle and isolate all cache/output files under `_Local/`.
 3. [complete] Launch and verify the local live-reload server at `127.0.0.1:4000`.
+
+# Publisher Front Matter Plain Scalars
+
+## Plan
+
+1. [complete] Compare the publisher serialization logic with the unquoted ESDTVS post format.
+2. [complete] Change metadata serialization to write plain title, date, category, and tag values.
+3. [complete] Build and publish the updated Windows executable, then verify generated Front Matter.
