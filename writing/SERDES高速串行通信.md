@@ -10,6 +10,7 @@ publish_target: _posts/2026-09-02-SERDES高速串行通信.md
 
 
 
+
 SerDes艺术
 
 **Stauffer, David Robert, et al. *High speed serdes devices and applications*. Springer Science & Business Media, 2008.** 这是一本面向高速串行通信（Serializer/Deserializer，SerDes）领域的经典工程技术书籍，主要介绍 **Gbps 级高速串行链路的芯片设计、系统架构、信号完整性问题以及实际应用**。它出版于 2008 年，正处于 PCI Express、10Gb Ethernet、光纤通信、高速 FPGA 收发器快速发展的阶段，因此内容非常贴近工程实践。
@@ -78,13 +79,37 @@ Des——Deserializer，解串器，将接收到的串行数据转为并行数�
 
 有一种折中方法是限制每条接口时钟线所对应的数据位数量。对于更宽的数据总线，可以采用多条接口时钟（multiple interface clocks）的方式，每条时钟分别对应数据总线中的一部分比特位。如图 1.6 所示，一个 k bits 的互联通道被划分为两个数据组，每个组都单独配有一个参考时钟线。 需要注意的是，接收端芯片必须在各自独立的时钟域中采集这两组数据位，并在采样后将这些数据重新定时（retime）到芯片内部的统一时钟域中。
 
-#### 自适应采样边沿
+#### 自适应采样边沿（多抽头延迟线）
 
+另一种用于提升源同步接口速度的技术，是在接收端对数据信号进行处理，针对每一位数据自适应地调整采样项目。具体来说：将接收到的接口时钟信号输入一个多抽头延迟线（Multitap Delay Line），并使用由不同时钟相位驱动的多个触发器（flip-flop）同时对数据信号进行采样。随后，通过逻辑电路判断数据跳变（data transition）发生在哪两个相位之间，并选择其中的最佳采样时钟来捕获数据，如图1.7所示。**这正是现代 FPGA 中 ISERDES / IDELAY + BITSLICE 的核心工作原理**。
 
+<img src="SERDES高速串行通信.assets/1762148205023-4cc88617-4bd1-495b-974e-b5cf2e66c174.png" alt="img" style="zoom: 67%;" />
+
+如图 1.7 所示的这类方案，可能需要在接口初始化时或定期运行时使用特定的训练序列（Training Pattern）进行校准，两次训练周期之间的数据采样相位通常保持不变（静态）。更复杂的实现方式可以根据接收数据的实时特征，或根据嵌入在数据流中的训练符号，对采样相位进行动态调整。另一类架构也可能将数据本身输入延迟线进行处理，而不是仅仅延迟时钟。
+
+需要注意的是，此类方案大多有一个固有特性：其相位调整范围通常不超过 ±1 bit时间（bit time）；并且必须保证眼图开口足够大，以便在其中存在一个最佳采样相位。所以说， 源同步接口的相位训练机制只能在“一个比特周期”的范围内进行精细校准，因此信号链路本身必须具备足够的眼图裕度，否则无论延时线多精确都无法稳定采样。
+
+通过上述源同步方案，我们已经可以将单比特链路的数据速率提升到Gbps级别。然而，PVT变化使得在此基础上进一步提升接口速度的 设计变得极其复杂且难以实现。为了获得更高的传输速率， **高速SerDes（Serializer/Deserializer） 架构成为更优方案 ——它通过在数据流边沿（edge transitions）中提取时钟信号（clock recovery）来实现数据采样与同步**。
+
+> CDR 是 SerDes 的固有特征，是SerDes 接收端的心脏，从高速数据流中提取节拍，实现时钟恢复、相位同步与数据判决。没有 CDR，就没有真正意义上的高速 SerDes 链路。  
 
 ## 3. 高速SerDes
 
 在速率达到 2.5 Gbps 及以上时，高速串行器/解串器（High-Speed SerDes, HSS） 成为主流的I/O接口实现方案。与源同步接口（source-synchronous interface）不同，这类器件的**接收端内部包含一个时钟与数据恢复电路**（CDR, Clock and Data Recovery），该电路可根据数据信号的边沿跃迁（transition edges）动态确定最佳的采样时刻（sampling point）。 换句话说，SerDes 并不依赖单独的外部时钟线，而是直接从数据流中提取时钟信息来实现同步。
 
 <img src="SERDES高速串行通信.assets/1762149914118-f0e124ca-5e71-45f0-824c-b614baca5a50.png" alt="image.png" style="zoom: 67%;" />
+
+#### 串行器/解串器 Serializer/Deserializer Blocks
+
+#### 均衡器 Equalizers
+
+#### 时钟恢复电路 CDR
+
+#### 差分驱动器
+
+#### 差分接收器
+
+#### 诊断功能
+
+#### 锁相环
 
